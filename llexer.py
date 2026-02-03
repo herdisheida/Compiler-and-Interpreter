@@ -2,7 +2,7 @@ import sys
 from ltoken import LToken
 
 class LLexer():
-    def get_next_token():
+    def get_next_token(self):
         token = sys.stdin.read(1)
 
         # single char token

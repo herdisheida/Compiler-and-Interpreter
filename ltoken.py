@@ -15,4 +15,4 @@ class LToken():
 
     def __init__(self, lexeme, token):
         self.lexeme = lexeme
-        self.token = token
+        self.token_code = token
