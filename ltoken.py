@@ -16,3 +16,6 @@ class LToken():
     def __init__(self, lexeme, token):
         self.lexeme = lexeme
         self.token_code = token
+
+    def __str__(self):
+        return f"Lexeme: {self.lexeme}                  Token: {self.token_code}"
