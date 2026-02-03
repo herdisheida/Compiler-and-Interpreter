@@ -12,51 +12,60 @@ class LLexer():
 
         # single char token
         if (
-            curr_char == LToken.PLUS
-            or curr_char == LToken.MINUS
-            or curr_char == LToken.MULT
-            or curr_char == LToken.LPAREN
-            or curr_char == LToken.RPAREN
-            or curr_char == LToken.ASSIGN
-            or curr_char == LToken.SEMICOL
+            self.curr_char == LToken.PLUS
+            or self.curr_char == LToken.MINUS
+            or self.curr_char == LToken.MULT
+            or self.curr_char == LToken.LPAREN
+            or self.curr_char == LToken.RPAREN
+            or self.curr_char == LToken.ASSIGN
+            or self.curr_char == LToken.SEMICOL
             ):
-            return curr_char
+            return self.curr_char
         
         # check multi char tokens
         
-        # INT : [0-9]+
         if self.curr_char.isdigit():
             self.read_number()
 
-        # END, PRINT, ID
-        if curr_char.isalpha():
-            str_literal = ""
-            while curr_char.isalpha():
-                str_literal += curr_char
-                curr_char = sys.stdin.read(1)
+        if self.curr_char.isalpha():
+            self.read_keyword()
 
-            
-            if len(str_literal) == 3:
-                # END
-                if str_literal[0] == "e" and str_literal[1] == "n" and str_literal[2] == "d":
-                    return LToken.END
-                
-                # PRINT
-                elif str_literal[0] == "p" and str_literal[1] == "r" and str_literal[2] == "i" and str_literal[3] == "i" and str_literal[2] == "t":
-                    return LToken.END
-
-            # ID
-            return str_literal
-        
-        return LToken.ERROR
+        # ERROR
+        return LToken(self.curr_char, LToken.ERROR)
     
     def read_number(self):
+        """ INT : [0-9]+ """
         lexeme = ""
         while self.curr_char.isdigit():
             lexeme += self.curr_char
             self.next_char()
         return LToken(lexeme, LToken.INT)
 
+    def read_keyword(self):
+        """
+        token = END - lexeme = end
+        token = PRINT - lexeme = print
+        """
+
+        # END, PRINT, ID
+        if curr_char.isalpha():
+            lexeme = ""
+            while curr_char.isalpha():
+                lexeme += curr_char
+                curr_char = sys.stdin.read(1)
+
+            
+            if len(lexeme) == 3:
+                # END
+                if lexeme[0] == "e" and lexeme[1] == "n" and lexeme[2] == "d":
+                    return LToken(lexeme, LToken.END)
+                
+                # PRINT
+                elif lexeme[0] == "p" and lexeme[1] == "r" and lexeme[2] == "i" and lexeme[3] == "i" and lexeme[2] == "t":
+                    return LToken(lexeme, LToken.PRINT)
+
+            # ID
+            return LToken(lexeme, LToken.ID)
 
     def skip_whitespace(self):
         while self.curr_char.isspace():
