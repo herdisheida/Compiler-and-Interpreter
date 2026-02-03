@@ -50,30 +50,23 @@ class LLexer():
             self.next_char()
         return LToken(lexeme, LToken.INT)
 
-    def read_keyword(self):
+    def read_identifier_or_keyword(self):
         """
         token = END - lexeme = end
         token = PRINT - lexeme = print
         """
-
-        # END, PRINT, ID
+      
         lexeme = ""
-        while curr_char.isalpha():
-            lexeme += curr_char
-            curr_char = sys.stdin.read(1)
+        while self.current_char.isalpha():
+            lexeme += self.current_char
+            self.next_char()
 
-        
-        if len(lexeme) == 3:
-            # END
-            if lexeme[0] == "e" and lexeme[1] == "n" and lexeme[2] == "d":
-                return LToken(lexeme, LToken.END)
-            
-            # PRINT
-            elif lexeme[0] == "p" and lexeme[1] == "r" and lexeme[2] == "i" and lexeme[3] == "i" and lexeme[2] == "t":
-                return LToken(lexeme, LToken.PRINT)
-
-        # ID
-        return LToken(lexeme, LToken.ID)
+        if lexeme == "print":
+            return LToken(lexeme, LToken.PRINT)
+        elif lexeme == "end":
+            return LToken(lexeme, LToken.END)
+        else:
+            return LToken(lexeme, LToken.ID)
 
     def skip_whitespace(self):
         while self.curr_char.isspace():
