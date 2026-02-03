@@ -12,38 +12,53 @@ class LLexer():
     def get_next_token(self):
         self.skip_whitespace()
 
+
+        if self.current_char == "":
+            return LToken("", LToken.END)
+
+        # read INT
+        if self.current_char.isdigit():
+            return self.read_number()
+
+        # read END, PRINT, ID
+        if self.current_char.isalpha():
+            return self.read_identifier_or_keyword()
+        
+        
         # single char token
-        self.read_single_char()
+        if self.curr_char == '+':
+            self.next_char()
+            return LToken('+', LToken.PLUS)
 
-        
-        # check multi char tokens
-        
-        if self.curr_char.isdigit():
-            self.read_number()
+        if self.curr_char == '-':
+            self.next_char()
+            return LToken('-', LToken.MINUS)
 
-        if self.curr_char.isalpha():
-            self.read_keyword()
+        if self.curr_char == '*':
+            self.next_char()
+            return LToken('*', LToken.MULT)
 
-        # ERROR
-        return LToken(self.curr_char, LToken.ERROR)
+        if self.curr_char == '(':
+            self.next_char()
+            return LToken('(', LToken.LPAREN)
+
+        if self.curr_char == ')':
+            self.next_char()
+            return LToken(')', LToken.RPAREN)
+
+        if self.curr_char == '=':
+            self.next_char()
+            return LToken('=', LToken.ASSIGN)
+
+        if self.curr_char == ';':
+            self.next_char()
+            return LToken(';', LToken.SEMICOL)
+
+        # ERROR - unknown guy
+        unknown_char = self.current_char
+        self.next_char()
+        return LToken(unknown_char, LToken.ERROR)
     
-    def read_single_char(self):
-        if self.curr_char == LToken.PLUS:
-            return LToken(self.curr_char, LToken.PLUS)
-        if self.curr_char == LToken.MINUS:
-            return LToken(self.curr_char, LToken.MINUS)
-        if self.curr_char == LToken.MULT:
-            return LToken(self.curr_char, LToken.MULT)
-        if self.curr_char == LToken.LPAREN:
-            return LToken(self.curr_char, LToken.LPAREN)
-        if self.curr_char == LToken.RPAREN:
-            return LToken(self.curr_char, LToken.RPAREN)
-        if self.curr_char == LToken.ASSIGN:
-            return LToken(self.curr_char, LToken.ASSIGN)
-        if self.curr_char == LToken.SEMICOL:
-            return LToken(self.curr_char, LToken.SEMICOL)
-
-
     def read_number(self):
         """ INT : [0-9]+ """
         lexeme = ""
@@ -59,8 +74,8 @@ class LLexer():
         """
       
         lexeme = ""
-        while self.current_char.isalpha():
-            lexeme += self.current_char
+        while self.curr_char.isalpha():
+            lexeme += self.curr_char
             self.next_char()
 
         if lexeme == "print":
