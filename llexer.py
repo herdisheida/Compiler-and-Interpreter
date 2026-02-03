@@ -12,16 +12,15 @@ class LLexer():
     def get_next_token(self):
         self.skip_whitespace()
 
-
-        if self.current_char == "":
+        if self.curr_char == "":
             return LToken("", LToken.END)
 
         # read INT
-        if self.current_char.isdigit():
+        if self.curr_char.isdigit():
             return self.read_number()
 
         # read END, PRINT, ID
-        if self.current_char.isalpha():
+        if self.curr_char.isalpha():
             return self.read_identifier_or_keyword()
         
         
@@ -55,7 +54,7 @@ class LLexer():
             return LToken(';', LToken.SEMICOL)
 
         # ERROR - unknown guy
-        unknown_char = self.current_char
+        unknown_char = self.curr_char
         self.next_char()
         return LToken(unknown_char, LToken.ERROR)
     
