@@ -2,37 +2,38 @@ import sys
 from ltoken import LToken
 
 class LLexer():
+    def __init__(self):
+        self.curr_char = sys.stdin.read(1)
+
+    def next_char(self):
+        self.curr_char = sys.stdin.read(1)
+
     def get_next_token(self):
-        token = sys.stdin.read(1)
 
         # single char token
         if (
-            token == LToken.PLUS
-            or token == LToken.MINUS
-            or token == LToken.MULT
-            or token == LToken.LPAREN
-            or token == LToken.RPAREN
-            or token == LToken.ASSIGN
-            or token == LToken.SEMICOL
+            curr_char == LToken.PLUS
+            or curr_char == LToken.MINUS
+            or curr_char == LToken.MULT
+            or curr_char == LToken.LPAREN
+            or curr_char == LToken.RPAREN
+            or curr_char == LToken.ASSIGN
+            or curr_char == LToken.SEMICOL
             ):
-            return token
+            return curr_char
         
         # check multi char tokens
         
         # INT : [0-9]+
-        if token.isdigit():
-            int_literal = ""
-            while token.isdigit():
-                int_literal += token
-                token = sys.stdin.read(1)
-            return int(int_literal)
+        if self.curr_char.isdigit():
+            self.read_number()
 
         # END, PRINT, ID
-        if token.isalpha():
+        if curr_char.isalpha():
             str_literal = ""
-            while token.isalpha():
-                str_literal += token
-                token = sys.stdin.read(1)
+            while curr_char.isalpha():
+                str_literal += curr_char
+                curr_char = sys.stdin.read(1)
 
             
             if len(str_literal) == 3:
@@ -48,3 +49,17 @@ class LLexer():
             return str_literal
         
         return LToken.ERROR
+    
+    def read_number(self):
+        lexeme = ""
+        while self.curr_char.isdigit():
+            lexeme += self.curr_char
+            self.next_char()
+        return LToken(lexeme, LToken.INT)
+
+
+    def skip_whitespace(self):
+        while self.curr_char.isspace():
+            self.next_char()
+
+    
