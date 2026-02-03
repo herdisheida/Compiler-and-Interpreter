@@ -13,5 +13,9 @@ class LToken():
     END = 10
     ERROR = 11
 
-    def __init__(self):
-        pass
+    def __init__(self, lexeme, token):
+        self.lexeme = lexeme
+        self.token_code = token
+
+    def __str__(self):
+        return f"Lexeme: {self.lexeme}                  Token: {self.token_code}"
