@@ -10,6 +10,7 @@ class LLexer():
 
 
     def get_next_token(self):
+        self.skip_whitespace()
 
         # single char token
         self.read_single_char()
