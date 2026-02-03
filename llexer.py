@@ -8,22 +8,6 @@ class LLexer():
     def next_char(self):
         self.curr_char = sys.stdin.read(1)
 
-    def read_single_char(self):
-        if self.curr_char == LToken.PLUS:
-            return LToken(self.curr_char, LToken.PLUS)
-        if self.curr_char == LToken.MINUS:
-            return LToken(self.curr_char, LToken.MINUS)
-        if self.curr_char == LToken.MULT:
-            return LToken(self.curr_char, LToken.MULT)
-        if self.curr_char == LToken.LPAREN:
-            return LToken(self.curr_char, LToken.LPAREN)
-        if self.curr_char == LToken.RPAREN:
-            return LToken(self.curr_char, LToken.RPAREN)
-        if self.curr_char == LToken.ASSIGN:
-            return LToken(self.curr_char, LToken.ASSIGN)
-        if self.curr_char == LToken.SEMICOL:
-            return LToken(self.curr_char, LToken.SEMICOL)
-
 
     def get_next_token(self):
 
@@ -42,6 +26,23 @@ class LLexer():
         # ERROR
         return LToken(self.curr_char, LToken.ERROR)
     
+    def read_single_char(self):
+        if self.curr_char == LToken.PLUS:
+            return LToken(self.curr_char, LToken.PLUS)
+        if self.curr_char == LToken.MINUS:
+            return LToken(self.curr_char, LToken.MINUS)
+        if self.curr_char == LToken.MULT:
+            return LToken(self.curr_char, LToken.MULT)
+        if self.curr_char == LToken.LPAREN:
+            return LToken(self.curr_char, LToken.LPAREN)
+        if self.curr_char == LToken.RPAREN:
+            return LToken(self.curr_char, LToken.RPAREN)
+        if self.curr_char == LToken.ASSIGN:
+            return LToken(self.curr_char, LToken.ASSIGN)
+        if self.curr_char == LToken.SEMICOL:
+            return LToken(self.curr_char, LToken.SEMICOL)
+
+
     def read_number(self):
         """ INT : [0-9]+ """
         lexeme = ""
