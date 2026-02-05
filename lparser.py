@@ -28,7 +28,7 @@ class LParser:
 
         # end
         if self.curr_token.token_code == LToken.END:
-            return self.parse() # parse the end
+            return self.next_token() # parse the end
 
         # Statement ; Statement
         self.Statement()
@@ -37,7 +37,7 @@ class LParser:
             self.curr_token.token_code == LToken.ERROR ## ERROR ERRROR
             print("Syntax error")
 
-        self.parse() # parse SEMiCoL
+        self.next_token() # parse SEMiCoL
         self.Statements()
         
 
@@ -54,7 +54,7 @@ class LParser:
         self.Factor()
 
         if self.curr_token.token_code == LToken.MULT:
-            self.parse() # parse *
+            self.next_token() # parse *
             self.Term()
 
 
