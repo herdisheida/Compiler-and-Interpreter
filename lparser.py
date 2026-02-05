@@ -80,7 +80,6 @@ class LParser:
 
     def statement(self):
         """ Statement -> id = Expr | print id """
-        # statement starts with id or print, so we can check the current token to decide which production to use
         if self.curr_token.token_code == LToken.ID:
             self.check_intermediate_line()
             self.next_token() # consume id

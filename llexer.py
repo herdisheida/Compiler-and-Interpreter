@@ -78,9 +78,9 @@ class LLexer():
             self.next_char()
 
         if lexeme == "end":
-            return LToken(LToken.END, lexeme)
+            return LToken(lexeme, LToken.END,)
         elif lexeme == "print":
-            return LToken(LToken.PRINT, lexeme)
+            return LToken(lexeme, LToken.PRINT)
         else:
             return LToken(lexeme, LToken.ID)
 
