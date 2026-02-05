@@ -3,9 +3,9 @@ from llexer import LLexer
 
 class LParser:
 
-    def __init__(self):
-        self.lexer = LLexer()
-        self.curr_token = LToken()
+    def __init__(self, lexer):
+        self.lexer = lexer
+        self.curr_token = None
         self.next_token() # first token
 
     def parse(self):
@@ -21,7 +21,7 @@ class LParser:
     def error(self):
         pass # TODO wat is dis ?
 
-    def Statements(self):
+    def statements(self):
         """ start symbol,
         Statements -> Statement ; Statements | end
         """
@@ -31,15 +31,15 @@ class LParser:
             return self.next_token() # parse the end
 
         # Statement ; Statement
-        self.Statement()
+        self.statement()
 
         if self.curr_token.token_code != LToken.SEMICOL:
-            self.curr_token.token_code == LToken.ERROR ## ERROR ERRROR
+            self.curr_token.token_code == LToken.ERROR
             print("Syntax error")
             
 
         self.next_token() # parse SEMiCoL
-        self.Statements()
+        self.statements()
         
 
     def Statement():
@@ -50,16 +50,16 @@ class LParser:
         """ Expr- > Term | Term + Expr | Term - Expr """
         pass
 
-    def Term(self):
+    def term(self):
         """ Term -> Factor | Factor * Term """
-        self.Factor()
+        self.factor()
 
         if self.curr_token.token_code == LToken.MULT:
             self.next_token() # parse *
-            self.Term()
+            self.term()
 
 
-    def Factor(self):
+    def factor(self):
         """ Factor -> int | id | ( Expr ) """
         if self.curr_token.token_code == LToken.INT:
             self.next_token() # parse int
@@ -69,7 +69,7 @@ class LParser:
 
         elif self.curr_token.token_code == LToken.LPAREN:
             self.next_token() # parse (
-            self.Expr()
+            self.expr()
             if self.curr_token.token_code != LToken.RPAREN:
                 self.curr_token.token_code == LToken.ERROR
                 print("Syntax error")
