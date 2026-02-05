@@ -3,6 +3,14 @@ from llexer import LLexer
 
 class LParser:
 
+    OPERATORS = {
+        LToken.PLUS: "ADD",
+        LToken.MINUS: "SUB",
+        LToken.MULT: "MULT",
+        LToken.ASSIGN: "ASSIGN",
+        LToken.PRINT: "PRINT"
+    }
+
     def __init__(self, lexer):
         self.lexer = lexer
         self.curr_token = None
@@ -37,9 +45,9 @@ class LParser:
     def print_intermediate_line(self):
         """ Print the intermediate line  """
         for var in self.variables:
-            print("PUSH ", var, end='\n')
+            print("PUSH", var, end='\n')
         for op in self.operators:
-            print(op, end='\n')
+            print(self.OPERATORS[op.token_code], end='\n')
         self.variables = []
         self.operators = []
 
