@@ -6,7 +6,6 @@ class LParser:
     def __init__(self, lexer):
         self.lexer = lexer
         self.curr_token = None
-        self.next_token() # first token
 
     def parse(self):
         self.next_token()
@@ -30,7 +29,7 @@ class LParser:
         # end
         if self.curr_token.token_code == LToken.END:
             print(self.curr_token)
-            return self.next_token() # parse the end
+            self.next_token() # parse the end
 
         # Statement ; Statement
         self.statement()
@@ -40,7 +39,7 @@ class LParser:
             
         print(self.curr_token)
         self.next_token() # parse SEMiCoL
-        self.statements()
+        return self.statements()
         
 
     def statement(self):
@@ -54,8 +53,7 @@ class LParser:
             print(self.curr_token)
             self.next_token() # consume =
             self.expr()
-            return
-        
+
         elif self.curr_token.token_code == LToken.PRINT:
             print(self.curr_token)
             self.next_token() # consume print
@@ -63,7 +61,7 @@ class LParser:
                 return self.error()
             print(self.curr_token)
             self.next_token() # consume id
-            return
+            
         else:
             return self.error() # dummy error function
             
@@ -73,17 +71,17 @@ class LParser:
     def expr(self):
         """ Expr -> Term | Term + Expr | Term - Expr """
         self.term()
+
         if self.curr_token.token_code == LToken.PLUS:
             print(self.curr_token)
             self.next_token() # parse +
             self.expr()
-            return
 
         elif self.curr_token.token_code == LToken.MINUS:
             print(self.curr_token)
             self.next_token() # parse -
             self.expr()
-            return
+            
         else:
             return self.error()
 
