@@ -36,6 +36,7 @@ class LParser:
         if self.curr_token.token_code != LToken.SEMICOL:
             self.curr_token.token_code == LToken.ERROR ## ERROR ERRROR
             print("Syntax error")
+            
 
         self.next_token() # parse SEMiCoL
         self.Statements()
@@ -58,6 +59,23 @@ class LParser:
             self.Term()
 
 
-    def Factor():
+    def Factor(self):
         """ Factor -> int | id | ( Expr ) """
-        pass
+        if self.curr_token.token_code == LToken.INT:
+            self.next_token() # parse int
+
+        elif self.curr_token.token_code == LToken.ID:
+            self.next_token() # parse id
+            
+        elif self.curr_token.token_code == LToken.LPAREN:
+            self.next_token() # parse (
+            self.Expr()
+            if self.curr_token.token_code != LToken.RPAREN:
+                self.curr_token.token_code == LToken.ERROR
+                print("Syntax error")
+            self.next_token() # parse )
+        
+        else:
+            # not int, id, or (
+            self.curr_token.token_code == LToken.ERROR
+            print("Syntax error")
