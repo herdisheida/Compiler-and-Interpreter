@@ -19,7 +19,8 @@ class LParser:
             self.error()
 
     def error(self):
-        pass # TODO wat is dis ?
+        print ("Syntax Error")
+        exit(1)
 
     def statements(self):
         """ start symbol,
@@ -35,8 +36,7 @@ class LParser:
         self.statement()
 
         if self.curr_token.token_code != LToken.SEMICOL:
-            self.curr_token.token_code == LToken.ERROR
-            print("Syntax error")
+            return self.error()
             
 
         self.next_token() # parse SEMiCoL
@@ -50,8 +50,7 @@ class LParser:
             curr_id = self.curr_token.lexeme
             self.next_token() # consume id
             if self.curr_token.token_code != LToken.ASSIGN:
-                self.error() # dumymy error function
-                print("syntax error")
+                return self.error() # dumymy error function
             self.next_token() # consume =
             self.Expr()
             return f"{curr_id} = {self.Expr()}"
@@ -59,14 +58,12 @@ class LParser:
         elif self.curr_token.token_code == LToken.PRINT:
             self.next_token() # consume print
             if self.curr_token.token_code != LToken.ID:
-                self.error()
-                print("syntax error")
+                return self.error()
             curr_id = self.curr_token.lexeme
             self.next_token() # consume id
             return f"print {curr_id}"
         else:
-            self.error() # dummy error function
-            print("syntax error")
+            return self.error() # dummy error function
             
             
             
@@ -82,8 +79,7 @@ class LParser:
                 left = f"({left} {operator} {right})"
             return left
         else:
-            self.error()
-            print("syntax error")
+            return self.error()
 
 
     def term(self):
@@ -107,11 +103,9 @@ class LParser:
             self.next_token() # parse (
             self.expr()
             if self.curr_token.token_code != LToken.RPAREN:
-                self.curr_token.token_code == LToken.ERROR
-                print("Syntax error")
+                return self.error()
             self.next_token() # parse )
         
         else:
             # not int, id, or (
-            self.curr_token.token_code == LToken.ERROR
-            print("Syntax error")
+            return self.error()
