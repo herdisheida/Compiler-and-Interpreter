@@ -29,7 +29,7 @@ class LParser:
         # end
         if self.curr_token.token_code == LToken.END:
             print(self.curr_token)
-            self.next_token() # parse the end
+            return self.next_token() # parse the end
 
         # Statement ; Statement
         self.statement()
@@ -81,9 +81,9 @@ class LParser:
             print(self.curr_token)
             self.next_token() # parse -
             self.expr()
-            
+
         else:
-            return self.error()
+            return
 
 
     def term(self):
