@@ -4,8 +4,9 @@ from llexer import LLexer
 class LParser:
 
     def __init__(self):
-        self.curr_token = LToken()
         self.lexer = LLexer()
+        self.curr_token = LToken()
+        self.next_token() # first token
 
     def parse(self):
         self.next_token()
