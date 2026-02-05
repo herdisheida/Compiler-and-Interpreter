@@ -29,6 +29,8 @@ class LParser:
             self.error()
 
     def error(self):
+        for var in self.variables:
+            print("PUSH", var)
         print ("Syntax Error")
         exit(1)
 
@@ -37,8 +39,10 @@ class LParser:
         """ Put operators and variable toknes into respective lists """
         if  self.curr_token.is_operator():
             self.operators.insert(0, self.curr_token)
+
         elif self.curr_token.is_variable():
             self.variables.append(self.curr_token)
+            
         elif self.curr_token.token_code == LToken.PRINT:
             self.operators.insert(0, self.curr_token)
 
@@ -59,7 +63,7 @@ class LParser:
 
         # end
         if self.curr_token.token_code == LToken.END:
-            return self.next_token() # parse the end
+            return
 
         # Statement ; Statement
         self.statement()
@@ -68,9 +72,8 @@ class LParser:
             return self.error()
             
         self.check_intermediate_line()
-        self.next_token() # parse SEMiCoL
-
         self.print_intermediate_line()
+        self.next_token() # parse SEMiCoL
 
         return self.statements()
         
