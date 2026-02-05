@@ -1,5 +1,5 @@
 from ltoken import LToken
-from llexer import LLexer
+import sys
 
 class LParser:
 
@@ -31,7 +31,7 @@ class LParser:
     def error(self):
         for var in self.variables:
             print("PUSH", var)
-        print ("Syntax Error")
+        print ("Syntax Error", file=sys.stderr)
         exit(1)
 
 
@@ -100,8 +100,6 @@ class LParser:
             
         else:
             return self.error()
-            
-            
             
 
     def expr(self):
