@@ -63,7 +63,7 @@ class LParser:
             self.next_token() # consume id
             
         else:
-            return self.error() # dummy error function
+            return self.error()
             
             
             
