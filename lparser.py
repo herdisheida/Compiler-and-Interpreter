@@ -27,13 +27,13 @@ class LParser:
         """
 
         # end
-        if self.curr_token.token_code == self.END:
-            return self.parse()
+        if self.curr_token.token_code == LToken.END:
+            return self.parse() # parse the end
 
         # Statement ; Statement
         self.Statement()
 
-        if self.curr_token.token_code != self.SEMICOL:
+        if self.curr_token.token_code != LToken.SEMICOL:
             self.curr_token.token_code == LToken.ERROR ## ERROR ERRROR
             print("Syntax error")
 
@@ -49,9 +49,14 @@ class LParser:
         """ Expr- > Term | Term + Expr | Term - Expr """
         pass
 
-    def Term():
+    def Term(self):
         """ Term -> Factor | Factor * Term """
-        pass
+        self.Factor()
+
+        if self.curr_token.token_code == LToken.MULT:
+            self.parse() # parse *
+            self.Term()
+
 
     def Factor():
         """ Factor -> int | id | ( Expr ) """
