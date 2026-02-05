@@ -1,4 +1,9 @@
 class SInterpreter:
+    def __init__(self):
+        self.stack = []
+        self.variables = {}
+
+
     def cycle(self):
         pass
 
