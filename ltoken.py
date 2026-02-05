@@ -18,4 +18,11 @@ class LToken():
         self.token_code = token
 
     def __str__(self):
-        return f"Token: {self.token_code} Lexeme: {self.lexeme}"
+        # return f"Token: {self.token_code} Lexeme: {self.lexeme}"
+        return f"{self.lexeme}"
+    
+    def is_operator(self):
+        return self.token_code in {LToken.PLUS, LToken.MINUS, LToken.MULT, LToken.ASSIGN}
+    
+    def is_variable(self):
+        return self.token_code in {LToken.ID, LToken.INT}
