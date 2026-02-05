@@ -38,7 +38,7 @@ class LParser:
         if self.curr_token.token_code != LToken.SEMICOL:
             return self.error()
             
-
+        print(self.curr_token)
         self.next_token() # parse SEMiCoL
         self.statements()
         
@@ -87,6 +87,7 @@ class LParser:
         self.factor()
 
         if self.curr_token.token_code == LToken.MULT:
+            print(self.curr_token)
             self.next_token() # parse *
             self.term()
 
@@ -94,16 +95,20 @@ class LParser:
     def factor(self):
         """ Factor -> int | id | ( Expr ) """
         if self.curr_token.token_code == LToken.INT:
+            print(self.curr_token)
             self.next_token() # parse int
 
         elif self.curr_token.token_code == LToken.ID:
+            print(self.curr_token)
             self.next_token() # parse id
 
         elif self.curr_token.token_code == LToken.LPAREN:
+            print(self.curr_token)
             self.next_token() # parse (
             self.expr()
             if self.curr_token.token_code != LToken.RPAREN:
                 return self.error()
+            print(self.curr_token)
             self.next_token() # parse )
         
         else:
