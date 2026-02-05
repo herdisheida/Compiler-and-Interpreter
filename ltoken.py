@@ -18,4 +18,4 @@ class LToken():
         self.token_code = token
 
     def __str__(self):
-        return f"Token: {self.token_code} - Lexeme: {self.lexeme}"
+        return f"Token: {self.token_code} Lexeme: {self.lexeme}"
