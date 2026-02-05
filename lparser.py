@@ -19,24 +19,58 @@ class LParser:
             self.error()
 
 
-    def Statements():
+    def Statements(self):
         """ start symbol,
         Statements -> Statement ; Statements | end
         """
         pass
 
-    def Statement():
+    def Statement(self):
         """ Statement -> id = Expr | print id """
-        pass
+        # statement starts with id or print, so we can check the current token to decide which production to use
+        if self.curr_token.token_code == LToken.ID:
+            curr_id = self.curr_token.lexeme
+            self.next_token() # consume id
+            if self.curr_token.token_code != LToken.ASSIGN:
+                self.error() # dumymy error function
+                print("syntax error")
+            self.next_token() # consume =
+            self.Expr()
+            return f"{curr_id} = {self.Expr()}"
 
-    def Expr():
-        """ Expr- > Term | Term + Expr | Term - Expr """
-        pass
+        elif self.curr_token.token_code == LToken.PRINT:
+            self.next_token() # consume print
+            if self.curr_token.token_code != LToken.ID:
+                self.error()
+                print("syntax error")
+            curr_id = self.curr_token.lexeme
+            self.next_token() # consume id
+            return f"print {curr_id}"
+        else:
+            self.error() # dummy error function
+            print("syntax error")
+            
+            
+            
 
-    def Term():
+    def Expr(self):
+        """ Expr -> Term | Term + Expr | Term - Expr """
+        if self.curr_token.token_code == LToken.INT or self.curr_token.token_code == LToken.ID or self.curr_token.token_code == LToken.LPAREN:
+            left = self.Term()
+            while self.curr_token.token_code == LToken.PLUS or self.curr_token.token_code == LToken.MINUS:
+                operator = self.curr_token.lexeme
+                self.next_token()
+                right = self.Term()
+                left = f"({left} {operator} {right})"
+            return left
+        else:
+            self.error()
+            print("syntax error")
+
+    def Term(self):
         """ Term -> Factor | Factor * Term """
         pass
 
-    def Factor():
+    def Factor(self):
         """ Factor -> int | id | ( Expr ) """
         pass
