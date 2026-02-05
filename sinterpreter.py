@@ -15,7 +15,8 @@ class SInterpreter:
             
 
     def process_line(self, line):
-        x, token, y, lexeme = line.split()
+        # x, token, y, lexeme = line.split()
+        pass
 
 
     def error(self, name_of_operator):
