@@ -28,6 +28,7 @@ class LParser:
 
         # end
         if self.curr_token.token_code == LToken.END:
+            print(self.curr_token)
             return self.next_token() # parse the end
 
         # Statement ; Statement
