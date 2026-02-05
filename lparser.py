@@ -116,9 +116,6 @@ class LParser:
             self.next_token() # parse -
             self.expr()
 
-        else:
-            return
-
 
     def term(self):
         """ Term -> Factor | Factor * Term """
