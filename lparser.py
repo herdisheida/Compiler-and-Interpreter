@@ -18,8 +18,8 @@ class LParser:
         if self.curr_token.token_code == LToken.ERROR:
             self.error()
 
-    def error():
-        pass # TODO
+    def error(self):
+        pass # TODO wat is dis ?
 
     def Statements(self):
         """ start symbol,
@@ -66,7 +66,7 @@ class LParser:
 
         elif self.curr_token.token_code == LToken.ID:
             self.next_token() # parse id
-            
+
         elif self.curr_token.token_code == LToken.LPAREN:
             self.next_token() # parse (
             self.Expr()
