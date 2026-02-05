@@ -25,7 +25,7 @@ class LParser:
         """
         pass
 
-    def Statement(self):
+    def statement(self):
         """ Statement -> id = Expr | print id """
         # statement starts with id or print, so we can check the current token to decide which production to use
         if self.curr_token.token_code == LToken.ID:
@@ -53,7 +53,7 @@ class LParser:
             
             
 
-    def Expr(self):
+    def expr(self):
         """ Expr -> Term | Term + Expr | Term - Expr """
         if self.curr_token.token_code == LToken.INT or self.curr_token.token_code == LToken.ID or self.curr_token.token_code == LToken.LPAREN:
             left = self.Term()
