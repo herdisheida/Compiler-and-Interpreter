@@ -1,7 +1,3 @@
-
-
-
-
 class SInterpreter:
     def cycle(self):
         pass
