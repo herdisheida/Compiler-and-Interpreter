@@ -47,21 +47,23 @@ class LParser:
         """ Statement -> id = Expr | print id """
         # statement starts with id or print, so we can check the current token to decide which production to use
         if self.curr_token.token_code == LToken.ID:
-            curr_id = self.curr_token.lexeme
+            print(self.curr_token)
             self.next_token() # consume id
             if self.curr_token.token_code != LToken.ASSIGN:
                 return self.error() # dumymy error function
+            print(self.curr_token)
             self.next_token() # consume =
-            self.Expr()
-            return f"{curr_id} = {self.Expr()}"
-
+            self.expr()
+            return
+        
         elif self.curr_token.token_code == LToken.PRINT:
+            print(self.curr_token)
             self.next_token() # consume print
             if self.curr_token.token_code != LToken.ID:
                 return self.error()
-            curr_id = self.curr_token.lexeme
+            print(self.curr_token)
             self.next_token() # consume id
-            return f"print {curr_id}"
+            return
         else:
             return self.error() # dummy error function
             
@@ -70,14 +72,18 @@ class LParser:
 
     def expr(self):
         """ Expr -> Term | Term + Expr | Term - Expr """
-        if self.curr_token.token_code == LToken.INT or self.curr_token.token_code == LToken.ID or self.curr_token.token_code == LToken.LPAREN:
-            left = self.term()
-            while self.curr_token.token_code == LToken.PLUS or self.curr_token.token_code == LToken.MINUS:
-                operator = self.curr_token.lexeme
-                self.next_token()
-                right = self.term()
-                left = f"({left} {operator} {right})"
-            return left
+        self.term()
+        if self.curr_token.token_code == LToken.PLUS:
+            print(self.curr_token)
+            self.next_token() # parse +
+            self.expr()
+            return
+
+        elif self.curr_token.token_code == LToken.MINUS:
+            print(self.curr_token)
+            self.next_token() # parse -
+            self.expr()
+            return
         else:
             return self.error()
 
