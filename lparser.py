@@ -27,18 +27,18 @@ class LParser:
         """
 
         # end
-        if self.curr_token == self.END:
+        if self.curr_token.token_code == self.END:
             return self.parse()
 
         # Statement ; Statement
         self.Statement()
 
-        if self.curr_token != self.SEMICOL:
+        if self.curr_token.token_code != self.SEMICOL:
             self.curr_token.token_code == LToken.ERROR ## ERROR ERRROR
             print("Syntax error")
 
         self.parse() # parse SEMiCoL
-        self.Statement()
+        self.Statements()
         
 
     def Statement():
