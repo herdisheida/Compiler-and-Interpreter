@@ -31,7 +31,7 @@ class LParser:
     def error(self):
         for var in self.variables:
             print("PUSH", var)
-        print ("Syntax Error", file=sys.stderr)
+        print ("Syntax error")
         exit(1)
 
 
