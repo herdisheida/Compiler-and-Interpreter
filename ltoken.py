@@ -22,7 +22,7 @@ class LToken():
         # return f"{self.lexeme}"
     
     def is_operator(self):
-        return self.token_code in {LToken.PLUS, LToken.MINUS, LToken.MULT, LToken.ASSIGN}
+        return self.token_code in {LToken.PLUS, LToken.MINUS, LToken.MULT, LToken.ASSIGN, LToken.PRINT}
     
     def is_variable(self):
         return self.token_code in {LToken.ID, LToken.INT}

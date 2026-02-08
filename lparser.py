@@ -3,20 +3,9 @@ import sys
 
 class LParser:
 
-    OPERATORS = {
-        LToken.PLUS: "ADD",
-        LToken.MINUS: "SUB",
-        LToken.MULT: "MULT",
-        LToken.ASSIGN: "ASSIGN",
-        LToken.PRINT: "PRINT"
-    }
-
     def __init__(self, lexer):
         self.lexer = lexer
         self.curr_token = None
-
-        self.operators = []
-        self.variables = []
 
     def parse(self):
         self.next_token()
@@ -29,31 +18,8 @@ class LParser:
             self.error()
 
     def error(self):
-        for var in self.variables:
-            print("PUSH", var.lexeme, end='\n')
         print ("Syntax error")
         sys.exit(0)
-
-
-    def check_intermediate_line(self):
-        """ Put operators and variable toknes into respective lists """
-        if  self.curr_token.is_operator():
-            self.operators.insert(0, self.curr_token)
-
-        elif self.curr_token.is_variable():
-            self.variables.append(self.curr_token)
-            
-        elif self.curr_token.token_code == LToken.PRINT:
-            self.operators.insert(0, self.curr_token)
-
-    def print_intermediate_line(self):
-        """ Print the intermediate line  """
-        for var in self.variables:
-            print("PUSH", var.lexeme, end='\n')
-        for op in self.operators:
-            print(self.OPERATORS[op.token_code], end='\n')
-        self.variables = []
-        self.operators = []
 
 
     def statements(self):
@@ -71,34 +37,34 @@ class LParser:
         if self.curr_token.token_code != LToken.SEMICOL:
             return self.error()
             
-        self.check_intermediate_line()
-        self.print_intermediate_line()
-        self.next_token() # parse SEMiCoL
-
+        self.next_token() # consume ;
         return self.statements()
         
 
     def statement(self):
         """ Statement -> id = Expr | print id """
         if self.curr_token.token_code == LToken.ID:
-            self.check_intermediate_line()
+            print("PUSH", self.curr_token.lexeme)
+
             self.next_token() # consume id
             if self.curr_token.token_code != LToken.ASSIGN:
-                return self.error() # dumymy error function
-            self.check_intermediate_line()
+                return self.error()
+            
             self.next_token() # consume =
             self.expr()
+            print("ASSIGN")
+            return
 
-        elif self.curr_token.token_code == LToken.PRINT:
-            self.check_intermediate_line()
-            self.next_token() # consume print
+        if self.curr_token.token_code == LToken.PRINT:
+            self.next_token()  # consume print
             if self.curr_token.token_code != LToken.ID:
                 return self.error()
-            self.check_intermediate_line()
-            self.next_token() # consume id
+            print("PUSH", self.curr_token.lexeme)
+            self.next_token()  # consume id
+            print("PRINT")
+            return
             
-        else:
-            return self.error()
+        return self.error()
             
 
     def expr(self):
@@ -106,45 +72,48 @@ class LParser:
         self.term()
 
         if self.curr_token.token_code == LToken.PLUS:
-            self.check_intermediate_line()
-            self.next_token() # parse +
+            self.next_token()  # consume +
             self.expr()
+            print("ADD")
+            return
 
-        elif self.curr_token.token_code == LToken.MINUS:
-            self.check_intermediate_line()
-            self.next_token() # parse -
+        if self.curr_token.token_code == LToken.MINUS:
+            self.next_token()  # consume -
             self.expr()
-
+            print("SUB")
+            return
+        
 
     def term(self):
         """ Term -> Factor | Factor * Term """
         self.factor()
 
         if self.curr_token.token_code == LToken.MULT:
-            self.check_intermediate_line()
-            self.next_token() # parse *
+            self.next_token()  # consume *
             self.term()
+            print("MULT")
+            return
 
 
     def factor(self):
         """ Factor -> int | id | ( Expr ) """
         if self.curr_token.token_code == LToken.INT:
-            self.check_intermediate_line()
-            self.next_token() # parse int
+            print("PUSH", self.curr_token.lexeme)
+            self.next_token()
+            return
 
-        elif self.curr_token.token_code == LToken.ID:
-            self.check_intermediate_line()
-            self.next_token() # parse id
+        if self.curr_token.token_code == LToken.ID:
+            print("PUSH", self.curr_token.lexeme)
+            self.next_token()
+            return
 
-        elif self.curr_token.token_code == LToken.LPAREN:
-            self.check_intermediate_line()
-            self.next_token() # parse (
+        if self.curr_token.token_code == LToken.LPAREN:
+            self.next_token()  # consume (
             self.expr()
             if self.curr_token.token_code != LToken.RPAREN:
                 return self.error()
-            self.check_intermediate_line()
-            self.next_token() # parse )
+            self.next_token()  # consume )
+            return
         
-        else:
-            # not int, id, or (
-            return self.error()
+        # not int, id, or (
+        return self.error()
