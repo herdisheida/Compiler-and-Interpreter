@@ -61,10 +61,6 @@ class LParser:
         Statements -> Statement ; Statements | end
         """
 
-        # EOF before 'end' -> error
-        if self.curr_token.token_code == LToken.ERROR:
-            return self.error()
-
         # end
         if self.curr_token.token_code == LToken.END:
             return
