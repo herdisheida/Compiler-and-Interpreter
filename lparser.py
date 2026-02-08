@@ -30,7 +30,7 @@ class LParser:
 
     def error(self):
         for var in self.variables:
-            print("PUSH", var)
+            print("PUSH", var.lexeme, end='\n')
         print ("Syntax error")
         exit(1)
 
@@ -49,7 +49,7 @@ class LParser:
     def print_intermediate_line(self):
         """ Print the intermediate line  """
         for var in self.variables:
-            print("PUSH", var, end='\n')
+            print("PUSH", var.lexeme, end='\n')
         for op in self.operators:
             print(self.OPERATORS[op.token_code], end='\n')
         self.variables = []
@@ -60,6 +60,10 @@ class LParser:
         """ start symbol,
         Statements -> Statement ; Statements | end
         """
+
+        # EOF before 'end' -> error
+        if self.curr_token.token_code == LToken.ERROR:
+            return self.error()
 
         # end
         if self.curr_token.token_code == LToken.END:

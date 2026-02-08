@@ -13,7 +13,7 @@ class LLexer():
         self.skip_whitespace()
 
         if self.curr_char == "":
-            return LToken("", LToken.END)
+            return LToken("", LToken.ERROR)
 
         # read INT
         if self.curr_char.isdigit():
