@@ -99,7 +99,8 @@ class SInterpreter:
 
     def error(self, name_of_operator):
         print(f"Error for operator: {name_of_operator}")
-        exit(1)
+        sys.exit(0)
+
 
     
 def main():

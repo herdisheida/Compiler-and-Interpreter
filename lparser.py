@@ -32,7 +32,7 @@ class LParser:
         for var in self.variables:
             print("PUSH", var.lexeme, end='\n')
         print ("Syntax error")
-        exit(1)
+        sys.exit(0)
 
 
     def check_intermediate_line(self):
