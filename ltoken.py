@@ -13,8 +13,6 @@ class LToken():
     END = 10
     ERROR = 11
 
-    ERROR = -1  # any other token
-
     def __init__(self, lexeme, token):
         self.lexeme = lexeme
         self.token_code = token
