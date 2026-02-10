@@ -3,6 +3,14 @@ import sys
 
 class LParser:
 
+    STACK_OPERATORS = {
+        LToken.PLUS: "ADD",
+        LToken.MINUS: "SUB",
+        LToken.MULT: "MULT",
+        LToken.ASSIGN: "ASSIGN",
+        LToken.PRINT: "PRINT"
+    }
+
     def __init__(self, lexer):
         self.lexer = lexer
         self.curr_token = None

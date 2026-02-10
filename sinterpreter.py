@@ -28,7 +28,7 @@ class SInterpreter:
             # push the lexeme onto the stack
             self.stack.append(parts[1])
         
-        elif operator in LParser.OPERATORS.values():
+        elif operator in LParser.STACK_OPERATORS.values():
             self.execute_operator(operator)
 
         else:
